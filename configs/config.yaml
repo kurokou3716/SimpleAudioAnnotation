@@ -1,0 +1,29 @@
+pd_delimiter : '|' 
+
+labels:
+  arousal:
+    fieldname : 'arousal'
+    type : 'radio'
+    values : 
+      - 'Init'
+      - 'Ignore'
+      - '-2'
+      - '-1'
+      - '-0.5'
+      - '0'
+      - '+0.5'
+      - '+1'
+      - '+2'
+  valence:
+    fieldname : 'valence'
+    type : 'radio'
+    values : 
+      - 'Init'
+      - 'Ignore'
+      - '-2'
+      - '-1'
+      - '-0.5'
+      - '0'
+      - '+0.5'
+      - '+1'
+      - '+2'

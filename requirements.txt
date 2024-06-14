@@ -1,0 +1,6 @@
+pandas 
+streamlit
+streamlit-option-menu
+PyYaml
+typer
+matplotlib

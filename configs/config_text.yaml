@@ -1,0 +1,7 @@
+pd_delimiter : '|' 
+
+labels:
+  tagging:
+    fieldname : 'text'
+    type : 'text_area'
+    values : "V( ) ^ A( )"
