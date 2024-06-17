@@ -141,10 +141,13 @@ def annotation_container(
     col_prev, col_submit, col_next = st.columns(3)
 
     with col_prev:
-        previous_btn = st.button(
-            '⏮ Previous',
-            on_click=previous_func,
-        )
+        if idx > 0:
+            previous_btn = st.button(
+                '⏮ Previous',
+                on_click=previous_func,
+            )
+        else:
+            previous_btn = False
     with col_submit:
         submit_btn = st.button(
             "💾 Submit",
@@ -152,10 +155,13 @@ def annotation_container(
             args=((idx,))
         )
     with col_next:
-        next_btn = st.button(
-            '⏭ Next',
-            on_click=next_func,
-        )
+        if idx < st.session_state['num_results']-1:
+            next_btn = st.button(
+                '⏭ Next',
+                on_click=next_func,
+            )
+        else:
+            next_btn = False
     # st.write(st.session_state['cur_idx'])
     if submit_btn:
         st.success('🤗 Submitted')
