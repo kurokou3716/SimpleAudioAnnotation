@@ -35,12 +35,14 @@ def action_configs(dev_mode=False):
             st.session_state['username'] = username
         st.info(f"Username: {st.session_state['username']}")
         temp_ss_name = utils.get_ss_name(st.session_state['username'])
+        col_save, col_load = st.columns(2)
         if os.path.isfile(temp_ss_name):
             st.write('Checkpoint exist !')
-            ss_load = st.button(
-                'Load checkpoint',
-                on_click=utils.load_results_ss,
-            )
+            with col_load:
+                ss_load = st.button(
+                    '📥 Load checkpoint',
+                    on_click=utils.load_results_ss,
+                )
             if ss_load:
                 st.success("Checkpoint loaded <3")
         if st.session_state['username'] and st.session_state['config_ready'] == False:
@@ -55,12 +57,23 @@ def action_configs(dev_mode=False):
         if not st.session_state['username']:
             st.warning("Enter your name please")
         if st.session_state['username']:
-            ss_safe = st.button(
-                    'Save checkpoint',
-                    on_click=utils.save_results_ss,
-                )
+            with col_save:
+                ss_safe = st.button(
+                        '💾 Save checkpoint',
+                        on_click=utils.save_results_ss,
+                    )
             if ss_safe:
                 st.success("Checkpoint saved <3")
+            load_result_file = st.file_uploader(
+                "Your previous result file"
+            )
+            if load_result_file:
+                st.session_state['results'] = utils.load_results(
+                    load_result_file, 
+                    delimiter=','
+                )
+                st.session_state['num_results']= len(st.session_state['results'])
+                st.success("Loaded previous result file <3")
 
 @st.experimental_fragment
 def annotation_fragment():
@@ -85,7 +98,7 @@ def detail_table_fragment():
     st.table(
         st.session_state['results'][start_from:start_from+num_row],
     )
-    num_done = len([x for x in st.session_state['results']['text'] if x != "V( ) ^ A( )"])
+    num_done = len([x for x in st.session_state['results']['text'] if x != " "])
     st.write(f"Done : {num_done}/{st.session_state['num_results']}")
 
 @st.experimental_fragment

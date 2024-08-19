@@ -124,7 +124,8 @@ def annotation_container(
     temp_row = st.session_state['results'].loc[idx]
     temp_name = temp_row['filename']
     temp_path = st.session_state['dataset'][temp_name]['filepath']
-    st.write(f"Sentence #{idx} : {temp_name}")
+    # st.write(f"Sentence #{idx} / {st.session_state['num_results']-1}: {temp_name}")
+    st.write(f"Sentence #{idx} / {st.session_state['num_results']-1}")
     st.audio(temp_path)
     for label in st.session_state['labels']:
         if st.session_state['labels'][label]['type'] == 'radio': 
@@ -141,10 +142,13 @@ def annotation_container(
     col_prev, col_submit, col_next = st.columns(3)
 
     with col_prev:
-        previous_btn = st.button(
-            '⏮ Previous',
-            on_click=previous_func,
-        )
+        if idx > 0:
+            previous_btn = st.button(
+                '⏮ Previous',
+                on_click=previous_func,
+            )
+        else:
+            previous_btn = False
     with col_submit:
         submit_btn = st.button(
             "💾 Submit",
@@ -152,10 +156,13 @@ def annotation_container(
             args=((idx,))
         )
     with col_next:
-        next_btn = st.button(
-            '⏭ Next',
-            on_click=next_func,
-        )
+        if idx < st.session_state['num_results']-1:
+            next_btn = st.button(
+                '⏭ Next',
+                on_click=next_func,
+            )
+        else:
+            next_btn = False
     # st.write(st.session_state['cur_idx'])
     if submit_btn:
         st.success('🤗 Submitted')
